@@ -1,0 +1,40 @@
+<link rel="stylesheet" href="/stylesheets/allBooks.css">
+<div class="container mt-5">  
+
+  <% if(cnt == 0){ %>
+    <h3 class="text-center"> 0 Results</h3>
+  <% } else {%>  
+  <div class="ml-5">
+    Found <%= cnt %> results
+  </div>
+  <% } %> 
+  <div class="row">
+      <% for(let i of books){ %>
+        <div class="col col-sm d-flex justify-content-around">
+              <div class="card my-3" style="width: 16rem;">
+                  <a href="/allbooks/<%= i._id %> ">
+                    <% if(i.images.length) { %> 
+                    <img src="<%=i.images[0].url%> " class="card-img-top" alt="...">
+                    <% } else { %>
+                    <img src="https://res.cloudinary.com/dy216j0wr/image/upload/v1631974593/No-image-available_nlhgdi.jpg" class="card-img-top" alt="...">
+                    <% } %> 
+                  </a>
+                  <div class="card-body text-center">
+                    <h6 class="card-title m-2" id="capitalize">  <%= i.title %>  <div class="mt-2"><cite><%= i.author %></cite></div> </h5>
+                    <li class="list-group text-center"><%= i.price %>$</li>
+                    <% if(i.description){ %> 
+                    <p class="card-text"> <%= i.description.substring(0, 100)+"..." %>  </p>
+                    <% } %> 
+                  </div>
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group">- <%= i.category %></li>
+                    <li class="list-group">- Available for rent: <%= i.rent %></li>
+                  </ul>
+                </div>
+        </div>
+        <% } %>
+  </div>
+</div>
+
+
+<br>

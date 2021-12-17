@@ -1,0 +1,87 @@
+<% layout('layout/boilerplate')%>
+
+<h1 class="text-center mt-3">Edit Book</h1>
+<div class="row">
+    <div class="col-1"></div>
+    <div class="col m-5 ">
+        <form action="/allbooks/<%=book._id%>/edit?_method=PUT" method="POST" enctype="multipart/form-data" class="validated-form" novalidate>
+
+        <div class="card " style="width: 18rem;">
+            <% for(let img of book.images) { %> 
+                <img src="<%=img.thumbnail%> " class="img-thumbnail" alt="<%=img.filename%> ">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="image-<%=img%>" value="<%=img.filename%>" name="deleteImg[]" id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault" id="image-<%=img%>">Tick if you want to remove this photo</label>
+                  </div>
+                <% } %> 
+        <!-- HERE THE FORM FOR IMAGE UPLOAD -->
+      </div>
+    </div>
+<!-- sectiunea asta e partea dreapta si trebuie sa incadreze sub prima sectiune de la anumita rezolutie -->
+    <div class="col mt-5">
+        <div class="col-md-7 offset-md-1 mt-5" >
+                <div class="mb-3">
+                    <label class="form-label" for="title">Title</label>
+                    <input class="form-control" type="text" id="title" name="title" value="<%=book.title%>" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="author">Author</label>
+                    <input class="form-control" type="text" id="author" name="author" value="<%=book.author%>" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="description">Short text about the book, min 10 characters</label>
+                    <textarea class="form-control" name="description" id="description" cols="30" rows="3" value="<%=book.description%>" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="pages">Pages</label>
+                    <input class="form-control" type="number" id="pages" name="pages" value="<%=book.pages%>" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="year">Year</label>
+                    <input class="form-control" type="number" id="year" name="year" value="<%=book.year%>"required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="edition">Edition</label>
+                    <input class="form-control" type="number" id="edition" name="edition" value="<%=book.edition%>"required >
+                </div>
+                <div class="mb-3">
+                    <label for="category">Choose a category</label>
+                    <select id="category" name="category">
+                      <option value="Technical">Technical</option>
+                      <option value="Nonfiction">Nonfiction</option>
+                      <option value="Drama">Drama</option>
+                      <option value="Biography">Biography</option>
+                      <option value="Mistery">Mistery</option>
+                      <option value="Fiction">Fiction</option>
+                      <option value="Poetry">Poetry</option>
+                    </select required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="price">Price</label>
+                    <input class="form-control" type="number" id="price" name="price" value="<%=book.price%>"required>
+                </div>
+                <div class="mb-3">
+                    <p>Is for rent?</p>
+                    <input type="radio" id="true" name="rent" value="yes" required>
+                    <label for="true">Yes</label><br>
+                    <input type="radio" id="false" name="rent" value="no" required>
+                    <label for="false">No</label><br>
+                </div>
+                <div>Choose one ore more images to update! Supported types: [ .png .jpeg .jpg ]</div>
+                <br>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                    </div>
+                    <div class="custom-file">
+                    <input type="file" name="image" id="image" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" multiple>
+                    <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-success">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>    
+</div>

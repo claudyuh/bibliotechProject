@@ -1,0 +1,61 @@
+<% layout('layout/boilerplate')%>
+<link rel="stylesheet" href="/stylesheets/userReg.css">
+
+<h3>Register</h3>
+<h5>Create your account. It's free and only takes a minute.</h5>
+
+<div class="container" id="box">
+    <form action="/register" class="validated-form" method="POST" autocomplete="false" novalidate>
+        <div class="col-md-8">
+        <label for="email" class="form-label mt-2">Enter a valid email:</label>
+        <input type="email" class="form-control" id="email" name="email" placeholder="ex: johny@gmail.com" autocomplete="new-password"required>
+        <div class="valid-feedback">
+            Looks good!
+        </div>
+        </div>
+        <div class="col-md-8">
+        <label for="firstname" class="form-label  mt-2">First Name:</label>
+        <input type="text" class="form-control" id="firstname" name="firstname" placeholder="ex: John" autocomplete="new-password" required>
+        <div class="valid-feedback">
+            Looks good!
+        </div>
+        </div>
+        <div class="col-md-8">
+        <label for="lastname" class="form-label mt-2">Surname:</label>
+        <input type="text" class="form-control" id="lastname" name="lastname" placeholder="ex: Johnson" autocomplete="new-password"required>
+        <div class="valid-feedback">
+            Looks good!
+        </div>
+        </div>
+        <div class="col-md-8">
+        <label for="username" class="form-label mt-2">Username:</label>
+        <input type="text" class="form-control" id="username" name="username" placeholder="ex: username" autocomplete="new-password"required>
+        <div class="valid-feedback">
+            Looks good!
+        </div>
+        </div>
+        <div class="col-md-8">
+            <label for="password" class="form-label mt-2">Password:</label>
+            <input type="password" class="form-control" id="password" name="password" autocomplete="new-password"required>
+            <div class="invalid-feedback">
+                Password has to be at least 8 letters long and to contain at least: 
+                -1 lowercase, 
+                -1 uppercase, 
+                -1 digit, and no spaces.
+            </div>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+        </div>
+        <div class="col-md-8">
+            <label for="confirmPassword" class="form-label mt-2">Confirm Password:</label>
+            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" autocomplete="new-password">
+        </div>
+        <div class="col-12 mt-3 p-3">
+        <button class="btn btn-success">Register</button>
+        </div>
+    </form>
+</div>
+
+
+

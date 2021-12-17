@@ -1,0 +1,393 @@
+<% layout('layout/boilerplate')%>
+<link rel="stylesheet" href="/stylesheets/allBooks.css">
+  
+
+<!-- all books from database -->
+<div class="container mt-5">
+  <!-- FIlter elemtents start -->
+  <div class="d-flex justify-content-around">
+    <h5 class="mr-4">Filter books by:</h5>
+    <h5 class="mr-4">Sort books by:</h5>
+  </div>
+  <div class="btn-group mb-3">
+  <div class="mb-3">
+      <div class="row ml-4 mt-3">
+        <div class="col">
+           <!-- Get request category -->
+        <form action="/allbooks" method="GET">
+          
+        <label for="select_2">Categories</label>
+        <select class="form-control" name="category" id="select_categories" style="width: 14rem;" >
+          <% if(category) { %>
+          <option><%= category %> </option>
+          <% } %>  
+          <option></option>
+          <option value="Poetry">Poetry</option>
+          <option value="Fiction">Fiction</option>
+          <option value="Mistery">Mistery</option>
+          <option value="Biography">Biography</option>
+          <option value="Drama">Drama</option>
+          <option value="Nonfiction">Nonfiction</option>
+          <option value="Technical">Technical</option>
+        </select>
+        </div>
+        <div class="col">
+           <!-- Get rentals only -->
+           <label for="select_4">Filter by rent</label>
+           <select class="form-control" name="rent" id="select_rent" style="width: 14rem;" >
+            <% if(rent) { %>
+            <option value="true"> Only for rent </option>
+            <% } %>
+            <option></option>
+             <option value="true">Only for rent</option>
+           </select>
+        </div>
+
+
+        <div class="col ml-3">
+          <!-- Get Top reviews -->
+          <label for="select_3">Sort by rating</label>
+          <select class="form-control" name="reviewScore" id="select_rating" style="width: 14rem;" >
+            <% if(reviewScore == 1) { %>
+            <option value="1">Lowest ratings</option>
+            <% } else if (reviewScore == -1) { %>
+            <option  value="-1">Highest ratings</option>
+            <% } %>  
+            <option></option>
+            <option value="-1">Highest ratings</option>
+            <option value="1">Lowest ratings</option>
+          </select>
+      </div>
+
+       <div class="col">             
+      <!-- Get price asc/desc -->
+        <label for="select_1">Sort by price</label>
+        <select class="form-control" name="price" id="select_price" style="width: 14rem;" >
+          <% if(price == 1) { %>
+          <option value="1">Price low to high</option>
+          <% } else if(price == -1) { %>
+            <option value="-1">Price high to low</option>
+          <% } %>  
+          <option></option>
+          <option value="1">Price low to high</option>
+          <option value="-1">Price high to low</option>
+        </select>
+      </div>
+      </div>
+    </div>
+    </div>
+    <div class="d-flex justify-content-center">
+      <input type="hidden" name="pg" value="1" /> 
+      <button class="btn btn-dark" type="submit">Submit filters</button>
+    </div>
+  </form>
+  </div>
+  
+    <!-- FIlter elemtents form end end -->
+
+<div class="mb-5 ml-4"> <%= cnt >= 1 ? cnt : cntFilter %> results found</div>
+
+  <div class="row" id="container" >
+    <% for(let i of books){ %>
+      <div class="col col-sm d-flex justify-content-around">
+            <div class="card my-3" style="width: 18rem;">
+              <a href="/allbooks/<%= i._id %> ">
+                <% if(i.images.length) { %> 
+                <img src="<%=i.images[0].url%> " class="card-img-top" alt="...">
+                <% } else { %>
+                <img src="https://res.cloudinary.com/dy216j0wr/image/upload/v1631974593/No-image-available_nlhgdi.jpg" class="card-img-top" alt="...">
+                <% } %> 
+              </a>
+              <div class="card-body text-center">
+                <h6 class="card-title m-2" id="capitalize">  <%= i.title %>  <div class="mt-2"><cite><%= i.author %></cite></div> </h5>
+                <li class="list-group text-center mt-2"><%= i.price %>$</li>
+                <% if(i.reviewScore){ %> 
+                <li class="list-group text-center my-2"><%= i.reviewScore %><i class="fas fa-star fa-sm"></i> </li>
+                <% } else { %>
+                <li class="list-group text-center my-2" > No reviews yet</li>
+                <% } %>  
+                <p class="card-text"> <%= i.description.substring(0, 100)+"..." %>  </p>
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group">- <%= i.category %></li>
+                <li class="list-group">- Available for rent: <%= i.rent %></li>
+              </ul>
+              
+              <div class="card-body">
+                <!-- needs to be made Shopping cart and Wish List -->
+                <div  class="d-flex justify-content-around">
+                  <% if(currentUser) { %> 
+                    <button class="btn btn-light fas fa-heart fa-lg" id="heart" 
+                    <% if(currentUser.wishlist.includes(i._id)) { %> 
+                    value="<%=i._id%>" style="color: red" type="submit"></button>
+                    <% } else { %>
+                      <button class="btn btn-light fas fa-heart fa-lg" id="heart" 
+                      value="<%=i._id%>" style="color: grey" type="submit"></button>
+                    <% } %>  
+                  <% } %>
+
+                </div>
+              </div>
+            </div>
+      </div>
+    <% } %>
+  </div>
+</div>
+
+<br>
+<!-- BUTTONS LOGIC START -->
+<% if(pages){ %> 
+<nav aria-label="..." class="d-flex justify-content-center my-5">
+  <ul class="pagination">
+    <% if(currentPage !== 1) { %>
+      <li class="page-item">
+        <a class="page-link" href="/allbooks?pg=<%=currentPage-1%>&category=<%=category%>&rent=<%=rent%>&reviewScore=<%=reviewScore%>&price=<%=price%>" tabindex="-1" name="pg" value="<%=currentPage%>" aria-disabled="true">Previous</a>
+      </li>
+    <% } %>  
+   
+
+    <!-- Under 11 pages logic-->
+    <% if(pages < 10) { %> 
+      <% for(let i = 1; i <= pages; i++) { %> 
+      <form action="/allbooks" method="GET">
+        <li class="page-item <%= i == currentPage ? 'active' : ''%>" aria-current="page">
+          <a class="page-link mx-1 btn btn-dark" name="pg" value="<%=i%>"  
+            href="/allbooks?pg=<%=i%>&category=<%=category%>&rent=<%=rent%>&reviewScore=<%=reviewScore%>&price=<%=price%>"> <%= i %> 
+          </a>
+        </li>
+      </form>
+      <% } %> 
+
+    <!-- Over 10 pages logic -->
+    <% } else { %>
+        <% if(currentPage == 1 || !currentPage) { %> 
+          <% for(i = 1; i <= 3; i++) { %> 
+        <form action="/allbooks" method="GET">
+          <li class="page-item <%= i == currentPage ? 'active' : ''%>" aria-current="page">
+            <a class="page-link mx-1 btn btn-dark" name="pg" value="<%=i%>"  
+              href="/allbooks?pg=<%=i%>&category=<%=category%>&rent=<%=rent%>&reviewScore=<%=reviewScore%>&price=<%=price%>"><%= i %> 
+            </a>   
+          </li>
+        </form>
+          <% } %> 
+          <li class="page-item disabled" aria-current="page"><button class="page-link" href="#"> ... </button></li>
+          <form action="/allbooks" method="GET">
+            <li class="page-item <%= pages == currentPage ? 'active' : ''%>" aria-current="page">
+              <a class="page-link mx-1 btn btn-dark" name="pg" value="<%=pages%>"  
+              href="/allbooks?pg=<%=pages%>&category=<%=category%>&rent=<%=rent%>&reviewScore=<%=reviewScore%>&price=<%=price%>"><%= pages %> 
+              </a>
+            </li>
+          </form>
+
+        <% } else if(currentPage == 2) { %>
+          <% for(i = 1; i <= 4; i++) { %> 
+            <form action="/allbooks" method="GET">
+              <li class="page-item <%= i == currentPage ? 'active' : ''%>" aria-current="page">
+                  <a class="page-link mx-1 btn btn-dark" name="pg" value="<%=i%>"
+                    href="/allbooks?pg=<%=i%>&category=<%=category%>&rent=<%=rent%>&reviewScore=<%=reviewScore%>&price=<%=price%>"><%= i %>
+                  </a>
+              </li>
+            </form>
+          <% } %> 
+            <li class="page-item disabled" aria-current="page"><button class="page-link" href="#"> ... </button></li>
+            <form action="/allbooks" method="GET">
+              <li class="page-item <%= pages == currentPage ? 'active' : ''%>" aria-current="page">
+                <a class="page-link mx-1 btn btn-dark" name="pg" value="<%=pages%>" 
+                  href="/allbooks?pg=<%=pages%>&category=<%=category%>&rent=<%=rent%>&reviewScore=<%=reviewScore%>&price=<%=price%>"><%= pages %> 
+                </a>
+              </li>
+            </form>
+
+        <% } else if(currentPage == 3) { %>
+          <% for(i = 1; i <= 5; i++) { %> 
+            <form action="/allbooks" method="GET">
+              <li class="page-item <%= i == currentPage ? 'active' : ''%>" aria-current="page">
+                <a class="page-link mx-1 btn btn-dark" name="pg" value="<%=i%>" 
+                  href="/allbooks?pg=<%=i%>&category=<%=category%>&rent=<%=rent%>&reviewScore=<%=reviewScore%>&price=<%=price%>"><%= i %>
+                </a>
+              </li>
+            </form>
+            <% } %> 
+            <li class="page-item disabled" aria-current="page"><button class="page-link" href="#"> ... </button></li>
+            <form action="/allbooks" method="GET">
+              <li class="page-item <%= pages == currentPage ? 'active' : ''%>" aria-current="page">
+                <a class="page-link mx-1 btn btn-dark" name="pg" value="<%=pages%>" 
+                  href="/allbooks?pg=<%=pages%>&category=<%=category%>&rent=<%=rent%>&reviewScore=<%=reviewScore%>&price=<%=price%>"><%= pages %> 
+                </a>
+              </li>
+            </form>
+
+        <% } else if(currentPage == 4) { %>
+          <% for(i = 1; i <= 6; i++) { %> 
+            <form action="/allbooks" method="GET">
+              <li class="page-item <%= i == currentPage ? 'active' : ''%>" aria-current="page">
+                <a class="page-link mx-1 btn btn-dark" name="pg" value="<%=i%>" 
+                  href="/allbooks?pg=<%=i%>&category=<%=category%>&rent=<%=rent%>&reviewScore=<%=reviewScore%>&price=<%=price%>"><%= i %> 
+                </a>
+              </li>
+            </form>
+              <% } %> 
+            <li class="page-item disabled" aria-current="page"><button class="page-link" href="#"> ... </button></li>
+            <form action="/allbooks" method="GET">
+              <li class="page-item <%= pages == currentPage ? 'active' : ''%>" aria-current="page">
+                <a class="page-link mx-1 btn btn-dark" name="pg" value="<%=pages%>" 
+                  href="/allbooks?pg=<%=pages%>&category=<%=category%>&rent=<%=rent%>&reviewScore=<%=reviewScore%>&price=<%=price%>"><%= pages %> 
+                </a>
+              </li>
+            </form>
+
+        <% } else if(currentPage === pages) { %>
+            <form action="/allbooks" method="GET">
+              <li class="page-item <%= 1 == currentPage ? 'active' : ''%>" aria-current="page">
+                <a class="page-link mx-1 btn btn-dark" name="pg" value="1"  
+                  href="/allbooks?pg=1&category=<%=category%>&rent=<%=rent%>&reviewScore=<%=reviewScore%>&price=<%=price%>"> 1 
+                </a>
+              </li>
+            </form>
+            <li class="page-item disabled" aria-current="page"><button class="page-link" href="#"> ... </button></li>
+          <% for(i = pages-2; i <= pages; i++) { %> 
+            <form action="/allbooks" method="GET">
+              <li class="page-item <%= i == currentPage ? 'active' : ''%>" aria-current="page">
+                <a class="page-link mx-1 btn btn-dark" name="pg" value="<%=i%>" 
+                  href="/allbooks?pg=<%=i%>&category=<%=category%>&rent=<%=rent%>&reviewScore=<%=reviewScore%>&price=<%=price%>"> <%= i %> 
+                </a>
+              </li>
+            </form>
+          <% } %>     
+
+        <% } else if(currentPage === pages-1) { %>
+            <form action="/allbooks" method="GET">
+              <li class="page-item <%= 1 == currentPage ? 'active' : ''%>" aria-current="page">
+                <a class="page-link mx-1 btn btn-dark" name="pg" value="1" 
+                  href="/allbooks?pg=1&category=<%=category%>&rent=<%=rent%>&reviewScore=<%=reviewScore%>&price=<%=price%>"> 1 
+                </a>
+              </li>
+            </form>
+            <li class="page-item disabled" aria-current="page"><button class="page-link" href="#"> ... </button></li>
+          <% for(i = pages-3; i <= pages; i++) { %> 
+            <form action="/allbooks" method="GET">
+              <li class="page-item <%= i == currentPage ? 'active' : ''%>" aria-current="page">
+                <a class="page-link mx-1 btn btn-dark" name="pg" value="<%=i%>" 
+                  href="/allbooks?pg=<%=i%>&category=<%=category%>&rent=<%=rent%>&reviewScore=<%=reviewScore%>&price=<%=price%>"><%= i %> 
+                </a>
+              </li>
+            </form>
+          <% } %>
+
+        <% } else if(currentPage === pages-2) { %>
+          <form action="/allbooks" method="GET">
+            <li class="page-item <%= 1 == currentPage ? 'active' : ''%>" aria-current="page">
+              <a class="page-link mx-1 btn btn-dark" name="pg" value="1" 
+                href="/allbooks?pg=1&category=<%=category%>&rent=<%=rent%>&reviewScore=<%=reviewScore%>&price=<%=price%>"> 1 
+              </a>
+            </li>
+          </form>
+          <li class="page-item disabled" aria-current="page"><button class="page-link" href="#"> ... </button></li>
+          <% for(i = pages-4; i <= pages; i++) { %> 
+          <form action="/allbooks" method="GET">
+            <li class="page-item <%= i == currentPage ? 'active' : ''%>" aria-current="page">
+              <a class="page-link mx-1 btn btn-dark" name="pg" value="<%=i%>"
+                href="/allbooks?pg=<%=i%>&category=<%=category%>&rent=<%=rent%>&reviewScore=<%=reviewScore%>&price=<%=price%>"><%= i %> 
+              </a>
+            </li>
+          </form>
+          <% } %>
+
+        <% } else if(currentPage === pages-3) { %>
+          <form action="/allbooks" method="GET">
+            <li class="page-item <%= 1 == currentPage ? 'active' : ''%>" aria-current="page">
+              <a class="page-link mx-1 btn btn-dark" name="pg" value="1"
+                href="/allbooks?pg=1&category=<%=category%>&rent=<%=rent%>&reviewScore=<%=reviewScore%>&price=<%=price%>"> 1 
+              </a>
+            </li>
+          </form>
+          <li class="page-item disabled" aria-current="page"><button class="page-link" href="#"> ... </button></li>
+          <% for(i = pages-4; i <= pages; i++) { %> 
+          <form action="/allbooks" method="GET">
+            <li class="page-item <%= i == currentPage ? 'active' : ''%>" aria-current="page">
+              <a class="page-link mx-1 btn btn-dark" name="pg" value="<%=i%>" 
+                href="/allbooks?pg=<%=i%>&category=<%=category%>&rent=<%=rent%>&reviewScore=<%=reviewScore%>&price=<%=price%>"><%= i %> 
+              </a>
+            </li>
+          </form>
+          <% } %>   
+
+        <% } else { %>
+          <form action="/allbooks" method="GET">
+            <li class="page-item <%= 1 == currentPage ? 'active' : ''%>" aria-current="page">
+              <a class="page-link mx-1 btn btn-dark" name="pg" value="1"
+                href="/allbooks?pg=1&category=<%=category%>&rent=<%=rent%>&reviewScore=<%=reviewScore%>&price=<%=price%>"> 1 
+              </a>
+            </li>
+          </form>
+          <li class="page-item disabled" aria-current="page"><button class="page-link" href="#"> ... </button></li>
+          <% for(i = currentPage-2; i <= currentPage + 2; i++) { %> 
+          <form action="/allbooks" method="GET">
+            <li class="page-item <%= i == currentPage ? 'active' : ''%>" aria-current="page">
+              <a class="page-link mx-1 btn btn-dark" name="pg" value="<%=i%>" 
+                href="/allbooks?pg=<%=i%>&category=<%=category%>&rent=<%=rent%>&reviewScore=<%=reviewScore%>&price=<%=price%>"><%= i %> 
+              </a>
+            </li>
+          </form>
+          <% } %> 
+          <li class="page-item disabled" aria-current="page"><button class="page-link" href="#"> ... </button></li>
+          <form action="/allbooks" method="GET">
+            <li class="page-item <%= pages == currentPage ? 'active' : ''%>" aria-current="page">
+              <a class="page-link mx-1 btn btn-dark" name="pg" value="<%=pages%>"
+                href="/allbooks?pg=<%=pages%>&category=<%=category%>&rent=<%=rent%>&reviewScore=<%=reviewScore%>&price=<%=price%>"><%= pages %> 
+              </a>
+            </li>
+          </form>
+        <% } %>    
+    <% } %>  
+
+    <% if(currentPage !== pages) { %>
+      <li class="page-item ">
+        <a class="page-link" aria-disabled="true" href="/allbooks?pg=<%=currentPage+1%>&category=<%=category%>&rent=<%=rent%>&reviewScore=<%=reviewScore%>&price=<%=price%>" tabindex="-1" name="pg" value="<%=currentPage%>" href="#">Next</a>
+      </li>
+    <% } %>  
+    
+  </ul>
+</nav>
+<% } %> 
+<!-- BUTTONS LOGIC END -->
+
+
+<script>
+  const elm = document.getElementById("container")
+  elm.addEventListener("click", wishlistFunction)
+    function wishlistFunction(e){
+      const tgt = e.target;
+      if(tgt.classList.contains('fa-heart')){
+        if(tgt.style.color == "grey"){
+          const bookId = tgt.value
+          tgt.style.color = "red"
+          // add to user wishlist DB the book ID! 
+          $(document).ready(function(){
+            $.ajax({
+              url: '/myaccount/wishlist',
+              method: 'POST',
+              contentType: 'application/json',
+              data: JSON.stringify({sendSvr: bookId})
+            })
+          })
+          
+      } else if (tgt.style.color == "red"){
+        const deleteId = tgt.value
+        tgt.style.color = "grey"
+        // remove from user wishlist DB the book ID!
+        $(document).ready(function(){
+          $.ajax({
+            url: '/myaccount/wishlist/delete',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({deleteId: deleteId})
+          })
+        })
+      }
+    }
+  }
+
+</script>
+
+

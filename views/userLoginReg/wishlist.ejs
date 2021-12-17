@@ -1,0 +1,45 @@
+<% layout('layout/boilerplate')%>
+
+<% if(lst.length === 0) { %>
+  <h3 class="m-5 text-center"> Nothing on your list </h3 class="m-5">
+<% } %> 
+
+<div class="container">
+    <div class="row">
+      <% for(let i of lst) { %>
+        <div class="col col-sm d-flex justify-content-around">
+            <div class="card my-3" style="width: 25rem;">
+                <a href="/allbooks/<%= i._id %> ">
+                  <% if(i.images.length) { %> 
+                  <img src="<%=i.images[0].url%> " class="card-img-top" alt="...">
+                  <% } else { %>
+                  <img src="https://res.cloudinary.com/dy216j0wr/image/upload/v1631974593/No-image-available_nlhgdi.jpg" class="card-img-top" alt="...">
+                  <% } %> 
+                </a>
+                <div class="card-body text-center">
+                  <h6 class="card-title m-2" id="capitalize">  <%= i.title %>  <div class="mt-2"><cite><%= i.author %></cite></div> </h5>
+                  <li class="list-group text-center mt-2"><%= i.price %>$</li>
+                  <% if(i.reviewScore){ %> 
+                  <li class="list-group text-center my-2"><%= i.reviewScore %><i class="fas fa-star fa-sm"></i> </li>
+                  <% } else { %>
+                  <li class="list-group text-center my-2" > No reviews yet</li>
+                  <% } %>  
+                  <p class="card-text"> <%= i.description.substring(0, 100)+"..." %>  </p>
+                </div>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group">- <%= i.category %></li>
+                  <li class="list-group">- Available for rent: <%= i.rent %></li>
+                </ul>
+                <div  class="d-flex justify-content-around">
+                  <form action="/myaccount/wishlist/delete" method="POST">
+                  <button class="btn btn-light"  name="deleteFromWish"
+                    value="<%=i._id%>" style="color: red" type="submit"> Remove from Wishlist</button>
+                  </form>
+                </div>
+            </div>
+            
+        </div>
+      
+        <% } %> 
+    </div>    
+</div>    

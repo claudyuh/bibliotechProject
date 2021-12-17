@@ -1,0 +1,297 @@
+<% layout('layout/boilerplate')%>
+<span class="badge rounded-pill bg-primary"></span>
+<link rel="stylesheet" href="/stylesheets/indexBook.css">
+<link rel="stylesheet" href="/stylesheets/starability.css">
+
+<div class="container mt-5 mb-5">
+  <div class="d-flex justify-content-end" id="container123">
+    <% if(currentUser) { %> 
+      <button class="btn btn-light fas fa-heart fa-2x" id="heart" 
+      <% if(currentUser.wishlist.includes(id)) { %> 
+      value="<%=id%>" style="color: red" type="submit"></button>
+      <% } else { %>
+        <button class="btn btn-light fas fa-heart fa-2x" id="heart" 
+        value="<%=id%>" style="color: grey" type="submit"></button>
+      <% } %>  
+    <% } %>
+  </div>
+  <div class="row" >
+    
+    <div class="col-md-3 d-flex justify-content-center" > 
+      <div class="card border-0" id="thebook" >
+        <!-- start carousel-->
+        <div id="campgroundCarousel" class="carousel slide" data-ride="carousel">
+          <div class="carousel-inner">
+              <% book.images.forEach((img, i) => {  %>
+              <div class="carousel-item <%= i === 0 ? 'active' : ''%>">
+                <div class="container"  style="height: fit-content; width: fit-content;">
+                  <img src="<%= img.url%>" class="d-block w-100" style="height: 300px; width:300px; " alt="">
+                </div>
+              </div>
+              <% }) %>
+          </div>
+          <% if(book.images.length > 1) {%>
+          <a class="carousel-control-prev" href="#campgroundCarousel" role="button" data-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#campgroundCarousel" role="button" data-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+          </a>
+          <% } else if (!book.images.length) { %>
+            <img src="https://res.cloudinary.com/dy216j0wr/image/upload/v1631974593/No-image-available_nlhgdi.jpg" class="card-img-top" alt="...">
+          <% } %> 
+      </div>
+        <!-- end carousel -->
+      
+      <div class="card-body">
+        <div>
+            <h4 class="mt-3 text-center"><%= book.price %>$ </h4>
+            <div class="text-center mt-3"> Added by: <%= book.user.username %> </div>
+
+            <div class="text-center mt-3"><a href="#" ><button class="btn btn-success">Buy</button></a></div>
+            <div class="text-center mt-3"><a href="#" ><button class="btn btn-success">Add to basket</button></a></div>
+        </div>
+
+        <% if(currentUser && currentUser._id.equals(book.user._id)) { %>  
+          <div class="d-flex justify-content-around mt-3">
+            <form action="/allbooks/<%=book._id%>?_method=DELETE" method="POST">
+              <span class="d-flex justify-content-end">
+                <button type="button" class="btn btn-dark" type="button" data-toggle="modal" data-target="#exampleModal">
+                  Delete
+                </button>
+              </span>
+             </form> 
+            <!-- Modal -->
+          <div class="modal fade" id="exampleModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to delete this book?(PS:all reviews will be deleted too)</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+
+                <form action="/allbooks/<%=book._id%>?_method=DELETE" method="POST">
+                  <button type="submit" class="btn btn-primary">Delete</button>
+                </form> 
+                </div>
+              </div>
+            </div>
+          </div>
+            <a href="/allbooks/<%=book._id%>/edit"><button class="btn btn-warning">Edit</button></a>
+          </div>
+        <% } %> 
+    </div>
+  </div>
+</div>
+
+<div class="col ml-5">
+  <div class="text-center">
+    <h2 id="capitalize"><%= book.title %></h2>
+    <h5 class="mt-3" id="capitalize"><%= book.author %></h5>
+</div>
+<br>
+<div class="container">
+    <div class="row text-center">
+      <div class="col">
+        <h5 class="mt-5">Category:<%= book.category %></h5>
+      </div>
+      <div class="col">
+        <h5 class="mt-5">Year: <%= book.year %> </h5>
+      </div>
+    </div>
+    <div class="row text-center">
+      <div class="col">
+        <h5 class="mt-5">Pages: <%= book.pages %> </h5>
+    </div>
+      <div class="col">
+        <h5 class="mt-5">Edition: <%= book.edition %> </h5>
+      </div>
+      <div class="col">
+        <h5 class="mt-5">For rent: <%= book.rent %> </h5>
+      </div>
+    </div>
+    </div>
+    <div class="row">
+        <div class="col">
+        <div class="mt-5">Short text about the book</div>
+        <h4 class="mt-5"><%= book.description %></h4>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- avg and total nr of reviews field -->
+
+<div class="row ml-3 mt-5">
+  <div class="col-md-6 col-md-8">
+    <% if(avg > 0){ %>
+  <h5 class="mb-3">Review rating: <%= avg %> out of 5 <i class="fas fa-star fa-sm"></i></h5>
+  <h4><%= nrOfReviews  %> total ratings </h4>
+    <% } else {%>
+  <div class="mb-5"> No ratings yet </div>
+    <% }%> 
+
+    <!-- Stars rating form -->
+<% if(currentUser){ %> 
+  <form action="/allbooks/<%=book._id%>/reviews" method="POST">
+    <fieldset class="starability-basic mt-5">
+      <legend>Rating:</legend>
+      <input type="radio" id="no-rate" class="input-no-rate" name="rating" value="3" checked aria-label="No rating." />
+      <input type="radio" id="first-rate1" name="rating" value="1" />
+      <label for="first-rate1" title="Terrible">1 star</label>
+      <input type="radio" id="first-rate2" name="rating" value="2" />
+      <label for="first-rate2" title="Not good">2 stars</label>
+      <input type="radio" id="first-rate3" name="rating" value="3" />
+      <label for="first-rate3" title="Average">3 stars</label>
+      <input type="radio" id="first-rate4" name="rating" value="4" />
+      <label for="first-rate4" title="Very good">4 stars</label>
+      <input type="radio" id="first-rate5" name="rating" value="5" />
+      <label for="first-rate5" title="Amazing">5 stars</label>
+    </fieldset>
+    <div >
+      <label class="form-label" for="body" id="body"> Comment maximum of 1000 characters - <span id="displayCount"></span> </label>
+      <textarea class="form-control" name="body" id="bodyComment" cols="5" rows="5"></textarea>
+    </div>
+    <button class="btn btn-dark mt-1 mb-5">Add comment</button>
+  </form>
+<% } %> 
+
+
+<% for(let review of book.reviews) { %> 
+  <div class="border-left border-right border-top" >
+    <div class="m-3">
+      <h5 id="txtUsername"> by <span id="username"><%= review.user.username %></h5>
+      <p class="starability-result" data-rating="<%= review.rating%>">Rated: <%= review.rating%> stars</p></span>
+      <div class="text-muted"> Reviewed on <%= review.date.toLocaleDateString() %></div>
+      <div  style="word-wrap: break-word;" id="txtReview" class="mt-3"> <%= review.body %> </div>
+      <!-- logica votare -->
+      <!-- lista nu include userul si nu e ownerul reviewului -->
+      <% if(currentUser && !review.usersVoted.includes(currentUser.id) && review.user.id != currentUser.id) { %> 
+        <form action="/allbooks/<%=book._id%>/reviews/<%=review._id%>/votes" method="POST" >
+          <span id= "votes" class="d-flex justify-content-end"> <%= review.reviewPoints %> </span>
+          <span class="d-flex justify-content-end"> 
+            <button  vote-id="<%=review.id%>" type="submit" class="btn btn-light btn-sm"><i class="fas fa-chevron-up fa-lg disabled"></i></button>
+          </span>
+        </form>
+        <!-- lista nu include userul si ESTE ownerul reviewului-->
+      <% } else if(currentUser && !review.usersVoted.includes(currentUser.id) && review.user.id == currentUser.id ) { %> 
+          <span id= "votes" class="d-flex justify-content-end"> <%= review.reviewPoints %> </span>
+          <span class="d-flex justify-content-end"> 
+            <button  vote-id="<%=review.id%>" type="submit" class="btn btn-light btn-sm"><i class="fas fa-chevron-up fa-lg disabled"></i></button>
+          </span>
+          <!-- lista include userul si nu e ownerul reviewului -->
+      <% } else if(currentUser && review.usersVoted.includes(currentUser.id) && review.user.id != currentUser.id) { %> 
+        <form action="/allbooks/<%=book._id%>/reviews/<%=review._id%>/votes" method="POST" >
+          <span id= "votes" class="d-flex justify-content-end"> <%= review.reviewPoints %> </span>
+          <span class="d-flex justify-content-end"> 
+            <button  vote-id="<%=review.id%>" type="submit" class="btn btn-light btn-sm"><i id="btnVoted" class="fas fa-chevron-up fa-lg disabled"></i></button>
+          </span>
+        </form>
+        <!-- lista include userul si ESTE ownerul reviewului -->
+      <% } else if(currentUser && review.usersVoted.includes(currentUser.id) && review.user.id == currentUser.id) { %>
+          <span id= "votes" class="d-flex justify-content-end"> <%= review.reviewPoints %> </span>
+          <span class="d-flex justify-content-end"> 
+            <button  vote-id="<%=review.id%>" type="submit" class="btn btn-light btn-sm"><i class="fas fa-chevron-up fa-lg disabled"></i></button>
+          </span>
+      <% } else if(!currentUser) { %> 
+        <form action="/allbooks/<%=book._id%>/reviews/<%=review._id%>/votes" method="POST" >
+          <span id= "votes" class="d-flex justify-content-end"> <%= review.reviewPoints %> </span>
+          <span class="d-flex justify-content-end"> 
+            <button  vote-id="<%=review.id%>" type="submit" class="btn btn-light btn-sm"><i class="fas fa-chevron-up fa-lg disabled"></i></button>
+          </span>
+        </form>
+<% } %> 
+
+    <% if(currentUser && currentUser.equals(review.user._id)) { %>  
+          <!-- Button trigger modal -->
+          <form action="/allbooks/<%=book._id%>/reviews/<%=review._id%>?_method=DELETE" method="POST">
+          <span class="d-flex justify-content-end">
+            <button type="button" class="btn btn-dark" type="button" data-toggle="modal" data-target="#staticBackdrop">
+              Delete
+            </button>
+          </span>
+         </form> 
+      
+          <!-- Modal -->
+          <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="staticBackdropLabel">Are you sure you want to delete this review?</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <form action="/allbooks/<%=book._id%>/reviews/<%=review._id%>?_method=DELETE" method="POST">
+                  <button type="submit" class="btn btn-primary">Delete</button>
+                </form> 
+                </div>
+              </div>
+            </div>
+          </div>
+        <% } %> 
+      </div>
+    </div>
+<% } %> 
+ 
+  
+
+
+
+<% if(currentUser) { %> 
+<script>
+  const textBody = document.getElementById("bodyComment")
+
+  textBody.addEventListener("keyup", () => {
+      var userInput = textBody.value;
+      const display = 1000 - parseInt(userInput.length)
+      const placeToDisplay = document.getElementById("displayCount").textContent = display
+
+  })
+</script>
+<% } %> 
+
+<script>
+  const elm = document.getElementById("container123")
+  elm.addEventListener("click", wishlistFunction)
+    
+    function wishlistFunction(e){  
+      const targ = e.target
+      if(targ.classList.contains('fa-heart')){
+        if(targ.style.color == "grey"){
+          const bookId = targ.value
+          targ.style.color = "red"
+          // add to user wishlist DB the book ID! 
+          $(document).ready(function(){
+            $.ajax({
+              url: '/myaccount/wishlist',
+              method: 'POST',
+              contentType: 'application/json',
+              data: JSON.stringify({sendSvr: bookId})
+            })
+          })
+      } else if (targ.style.color == "red"){
+        const deleteId = targ.value
+        targ.style.color = "grey"
+        // remove from user wishlist DB the book ID!
+        $(document).ready(function(){
+          $.ajax({
+            url: '/myaccount/wishlist/delete',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({deleteId: deleteId})
+          })
+        })
+      }
+    }
+  }
+
+</script>

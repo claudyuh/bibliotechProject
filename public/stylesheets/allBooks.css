@@ -1,0 +1,24 @@
+#capitalize {
+    text-transform:capitalize;
+}
+
+#nav {
+    margin-left: 33%;
+    width: 33%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-self: center;
+    
+}
+
+#div1{
+    width: 33.3%;
+}
+#div2{
+    width: 33.3%;
+}
+#div3{
+    width: 33.3%;
+}
+

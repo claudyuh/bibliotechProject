@@ -1,0 +1,42 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand  mx-3" href="/">Bibliotech</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item" >
+        <a class="nav-link"  href="/allbooks?category=&rent=&reviewScore=&price=&pg=1">Books <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/allbooks/newbook">Add a book </a>
+      </li>
+    </ul>
+
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-me-2" type="text" name="search" id="searchLiveKey" placeholder="Search" aria-label="text" onkeyup="searchLive(this.value)">
+      <input type="hidden" name="pg" value="1"/>
+      
+    </form>
+    <span class="navbar-text mx-3">  
+      <!-- here logical reasoning if logged in or not -->
+      <% if(currentUser) { %> 
+        <div id="dropdown1" class="dropdown">
+          <a class="btn btn-primary dropdown-toggle  btn-sm  ml-3" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-lg mr-3 ml-3"></i></a>
+          <ul id="box1" class="dropdown-menu " aria-labelledby="dropdownMenuLink">
+            <li id="el1"><a class="dropdown-item" href="/myaccount">My account <i class="fas fa-cog"></i></a></li>
+            <li id="el1"><a class="dropdown-item" href="/myaccount/wishlist">Wishlist <i class="fas fa-heart"></i></a></li>
+            <li id="el1"><a class="dropdown-item " href="/logout">Logout <i class="fas fa-sign-out-alt"></i></a></li>
+          </ul>
+        </div>
+      <% } else { %>
+        <a href= "/register" class="card-link ml-4">Register</a> <a href= "/login" class="card-link ml-4">Log in</a>
+      <% } %>  
+    </span>
+  </div>
+</nav>
+
+<!-- this div renders all search results in this div and hides rest of data -->
+ <div id="result"></div>
+

@@ -1,0 +1,21 @@
+#capitalize {
+    text-transform:capitalize;
+}
+
+#txtReview {
+    font-family: Georgia, serif;
+    font-size: large;
+}
+
+.text-muted {
+    font-size: smaller;
+}
+
+#votes {
+    margin-bottom: 3px;
+    margin-right: 13px;
+}
+
+#btnVoted {
+    color: rgb(0, 89, 255);
+}

@@ -1,0 +1,90 @@
+<% layout('layout/boilerplate')%>
+<h1 class="text-center mt-3">New Book</h1>
+<div class="col-md-6 offset-md-3 mt-5" >
+    
+    <form action="/allbooks" method="POST" class="validated-form" enctype="multipart/form-data" novalidate>
+        
+        <div class="mb-3">
+            <label class="form-label" for="title">Title</label>
+            <input class="form-control" type="text" id="title" name="title" required>
+            <div class="invalid-feedback">
+                Please write a short title.
+            </div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="author">Author</label>
+            <input class="form-control" type="text" id="author" name="author" required>
+            <div class="invalid-feedback">
+                Author needed.
+            </div>    
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="description">Short text about the book</label>
+            <textarea class="form-control" name="description" id="description" cols="30" rows="3" required></textarea>
+            <div class="invalid-feedback">
+                Please write a description.
+            </div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="pages">Pages</label>
+            <input class="form-control" type="number" id="pages" name="pages" required>
+            <div class="invalid-feedback">
+                Number of pages needed.
+            </div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="year">Year</label>
+            <input class="form-control" type="number" id="year" name="year" required>
+            <div class="invalid-feedback">
+                Please write the year.
+            </div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="edition">Edition</label>
+            <input class="form-control" type="number" id="edition" name="edition" required>
+        </div>
+        <div class="mb-3">
+            <label for="category">Choose a category</label>
+            <select id="category" name="category">
+              <option value="Technical">Technical</option>
+              <option value="Nonfiction">Nonfiction</option>
+              <option value="Drama">Drama</option>
+              <option value="Biography">Biography</option>
+              <option value="Mistery">Mistery</option>
+              <option value="Fiction">Fiction</option>
+              <option value="Poetry">Poetry</option>
+            </select required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="price">Price</label>
+            <input class="form-control" type="number" id="price" name="price" required>
+            <div class="invalid-feedback">
+                Price required.
+            </div>
+        </div>
+        <div class="mb-3">
+            <p>Is for rent?</p>
+            <input type="radio" id="true" name="rent" value="yes" required>
+            <label for="true">Yes</label><br>
+            <input type="radio" id="false" name="rent" value="no" required>
+            <label for="false">No</label><br>
+        </div>
+        <!-- IMAGE UPLOAD  -->
+        <div class="mb-3">
+            <div class="form-file custom-file">
+                <input type="file" class="form-file-input" id="image" name="image" multiple>
+                <label class="form-file-label" for="image">
+                    <span class="form-file-text custom-file-label">Choose image(s)...</span>
+                    <span class="form-file-button">Browse</span>
+                </label>
+            </div>
+        </div>
+          <!-- ----------- END ----------- -->
+          <br>
+          <div class="mb-3">
+            <button class="btn btn-success">Submit</button>
+        </div>
+    </form>
+</div>
+
+

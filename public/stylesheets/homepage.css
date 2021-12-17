@@ -1,0 +1,105 @@
+body {
+  background: linear-gradient(rgb(255, 255, 255), rgb(250, 255, 174));
+  font-family: arial, sans-serif;
+  padding: 0;
+  margin: 0;
+}
+
+#header {
+  background-color: rgba(255, 255, 255, 0.555);
+  backdrop-filter: blur(3px);
+  color: rgb(255, 255, 255);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  max-height: 100px;
+  padding: 0;
+  margin: 0;
+  
+}
+#header #header-content {
+  margin: 30px;
+}
+
+#header a {
+  color: black;
+  text-decoration: none;
+  margin-left: 30px;
+  font-weight: 700;
+}
+#header #abc {
+  float: right;
+  margin-right: 30px;
+  font-weight: 400;
+  font-size: 30px
+}
+.container123 {
+  margin-top: 100px;
+  width: 100%;
+  height: 600px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+#box111 {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  text-align: center;
+  font-size: 120px;
+  font-weight: 900;
+  font-family: var(--font-sans);
+  height: 80%;
+  width: 80%;
+}
+
+div h3{
+  text-decoration: none;
+  margin-bottom: 30px;
+}
+
+#rent111 {
+  margin-top: 70px;
+}
+
+#sell111 {
+  margin-top: -70px;
+}
+
+#explore111 {
+  margin-top: -70px;
+  margin-bottom: -70px;
+}
+
+.test{
+ color: rgb(41, 24, 24);
+}
+
+#rent112 {
+  margin-top: 70px;
+  background: linear-gradient(to right, rgb(0, 186, 219), rgb(46, 2, 104), rgb(0, 0, 0) );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+    transition: all 0.45s;
+  
+}
+
+#sell112 {
+  margin-top: -70px;
+  background: linear-gradient(to right, rgb(233, 3, 202), rgb(46, 2, 104), rgb(0, 0, 0) );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+    transition: all 0.45s;
+}
+
+#explore112 {
+  margin-top: -70px;
+  margin-bottom: -70px;
+  background: linear-gradient(to right, rgb(255, 115, 1), rgb(46, 2, 104), rgb(0, 0, 0) );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+    transition: all 0.45s;
+}

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+      integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+      crossorigin="anonymous"
+    />
+    <script src="https://kit.fontawesome.com/fb86090a3e.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="/stylesheets/homepage.css" />
+    <title>Homepage</title>
+  </head>
+  <body>
+    <div id="forBg">
+      <div id="header">
+        <div id="header-content">
+          <h1>
+            <a href="/allbooks?category=&rent=&reviewScore=&price=&pg=1"
+              >Bibliotech <i class="fas fa-book-open"></i>
+            </a>
+            <a id="abc" href="/register">Register </a>
+            <a id="abc" href="/login">Login </a>
+          </h1>
+        </div>
+      </div>
+    </div>
+
+    <div class="container123">
+      <div id="box111">
+        <div>
+          <span id="rent111">Rent.</span>
+        </div>
+        <div>
+          <span id="sell111">Sell.</span>
+        </div>
+        <div>
+          <span id="explore111">Explore.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <h3>Not registered yet?</h3>
+    </div>
+    <div>
+      <h3 class="d-flex justify-content-center">
+        Explore our website and find your favourite books.
+      </h3>
+    </div>
+    <div>
+      <h3 class="d-flex justify-content-center">
+        Create an account, it only takes one minute!
+        <a href="/register"> > Register now</a>
+      </h3>
+    </div>
+    <footer class="footer bg-dark py-3 mt-auto" id="myFooter">
+      <div class="container">
+        <span class="text-muted font-weight-bold">&copy; Bibliotech 2021</span>
+        <a href="#"><div class="text-muted ml-3 mt-3">Contact</div></a>
+        <a href="#"><div class="text-muted ml-3 mt-3">Privacy Policy</div></a>
+      </div>
+    </footer>
+
+    <script>
+      const rent111 = document.getElementById("rent111");
+      const sell111 = document.getElementById("sell111");
+      const explore111 = document.getElementById("explore111");
+      const timeOuts = () => {
+        setTimeout(() => {
+          explore111.id = "explore111";
+          rent111.id = "rent112";
+          setTimeout(() => {
+            rent111.id = "rent111";
+            sell111.id = "sell112";
+            setTimeout(() => {
+              sell111.id = "sell111";
+              explore111.id = "explore112";
+            }, 1500);
+          }, 1500);
+        }, 1500);
+      };
+      timeOuts();
+      setInterval(timeOuts, 4500);
+    </script>
+  </body>
+</html>
+
+<!-- 
+    background: -webkit-linear-gradient(#eee, #333);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+ -->

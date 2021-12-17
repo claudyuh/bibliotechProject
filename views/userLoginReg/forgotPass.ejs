@@ -1,0 +1,30 @@
+<% layout('layout/boilerplate')%>
+
+<div class="card w-50 offset-3 h-75 mb-5">
+    <div class="card-body">
+        <h5 class="card-title">Enter your details to recover your password</h5>
+        <form action="/forgot" method="POST" class="validated-form" novalidate>
+            <div class="mb-3">
+                <label class="form-label" for="username">Username</label>
+                <input class="form-control" type="text" id="username" name="username"  autocomplete="new-password" autofocus required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="email">Email</label>
+                <input class="form-control" type="email" id="email" name="email" autocomplete="new-password" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+                <div class="invalid-feedback">
+                    Enter a valid email!
+                </div>
+            </div>
+            
+            <button class="btn btn-success btn-block" type="submit">Reset</button>
+        </form>
+    </div>
+    </div>
+  </div> 
+               

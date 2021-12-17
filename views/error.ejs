@@ -1,0 +1,12 @@
+<% layout('layout/boilerplate') %> 
+
+<a  href="/allbooks?category=&rent=&reviewScore=&price=&pg=1">
+  <button type ="button" class="btn btn-success mb-3"  href="/allbooks">Back</button>
+</a>
+
+<div class="alert alert-warning" role="alert">
+    <h4 class="alert-heading">Oh no!</h4>
+    <p> <%= error.message %> </p>
+    <hr>
+    <p class="mb-3"> <%= error.stack %></p>
+  </div>

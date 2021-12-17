@@ -1,0 +1,13 @@
+#box1 {
+    background-color: #343a40;
+   
+}
+
+#dropdown1{
+    margin-right:50px ;
+    margin-left: 50px;
+}
+
+#el1 :hover{
+    background-color: rgb(22, 22, 22);
+}
